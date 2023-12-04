@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Loginperformance } from "./connect"
 
-export const Login=()=>
+export const Login1=()=>
 {
     const[user,setUser]=useState({
         "username":"",

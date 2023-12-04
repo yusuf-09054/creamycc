@@ -1,5 +1,5 @@
 import axios from "axios";
-const url="http://localhost:8082/Supermarket"
+const url="http://localhost:8081/supermarket"
 
 export const Loginperformance=async(object)=>
 {
@@ -8,7 +8,7 @@ export const Loginperformance=async(object)=>
     const token=btoa(credentials);
 
     try{
-        const t=await axios.get(`http://localhost:8082/Supermarket/`,
+        const t=await axios.get(`http://localhost:8081/supermarket/`,
     {
         headers:{
             "Authorization":`Basic ${token}`
@@ -24,4 +24,35 @@ export const Loginperformance=async(object)=>
     {
         alert(err);
     }
+}
+export const Displayallproductdetails=async()=>
+{
+    const t=await axios.get(`http://localhost:8081/supermarket/`);
+    return t;
+}
+
+
+export const Createnewproduct=async(object)=>
+{
+    const t=await axios.post(`${url}/create`,object);
+    alert(JSON.stringify(t.data)+" has been added in database")
+    return t;
+}
+
+export const Readoneproduct=async(id)=>
+{
+    const t=await axios.get(`${url}/readone/${id}`)
+    return t;
+}
+
+export const Updateproduct=async(object)=>
+{
+    const t=await axios.put(`${url}/update`,object);
+    alert(JSON.stringify(t.data)+" has been updated in database")
+    return t;
+}
+export const Deleteproduct=async(id)=>
+{
+    const t=await axios.delete(`${url}/Deleteone/${id}`);
+    return t;
 }

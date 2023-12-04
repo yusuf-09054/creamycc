@@ -1,20 +1,24 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import './Images.css'
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { Createnewproduct } from './connect';
-export let Register=()=>
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
+import { Readoneproduct, Updateproduct } from './connect';
+export let Updating=()=>
 {
+    const {myid}=useParams();
     const navi=useNavigate();
-    const[process,setProcess]=useState({
-        "productcount":0,
-        "productCategory":"",
-        "productBrand":"",
-        "productName":"",
-        "productPrice":0,
-        "productOffer":0
+    const[process,setProcess]=useState({});
+    useEffect(()=>
+    {
+        callreadingvalues();
     })
+
+    const callreadingvalues=async()=>
+    {
+        const t=await Readoneproduct(myid);
+        setProcess(t.data);
+    }
     const track=(agi)=>
     {
         const{name,value}=agi.target
@@ -32,15 +36,15 @@ export let Register=()=>
     {
         alert('Rejected successfully...!')
     }
-    const register=async()=>
+    const replace=async()=>
     {
-        const t=await Createnewproduct(process);
-        alert(t.data+" has been added in my database");
-        return t;
-    }
+        const t=await Updateproduct(process);
+        alert(t.data+" has updated in your database");
+        navi("/ListallproductDetails");
+    }   
     return(
         <>
-        <div className="container mt-5" >
+           <div className="container mt-5" >
                 <span id='center1'></span>
             <div className="row justify-content-center">
                 <div className="col-lg-8 col-md-0 col-sm-12 shadow-lg p-3 " id="center">
@@ -48,7 +52,7 @@ export let Register=()=>
                     <div className="row justify-content-center " >
                         <div className="row">
                             <div className="col">
-                                <label className="form-label" >productCount</label>
+                                <label className="form-label" >productcount</label>
                                 <input type="number" 
                                 onChange={track}
                                 value={process.productcount}
@@ -74,8 +78,8 @@ export let Register=()=>
                                 className="form-control" />
                     </div>
                     <div className="mt-3">
-                                <label className="form-label" >productName</label>
-                                <input type="text"
+                                <label className="form-label" >ProductName</label>
+                                <input type="tel" 
                                 name="productName"
                                 onChange={track}
                                 value={process.productName}
@@ -98,12 +102,12 @@ export let Register=()=>
                                  className="form-control" />
                     </div>
                     <div className="row justify-content-around mt-4">
-                        <button className="btn btn-outline-success col-3 ms-3" onClick={register}  >ADD</button>
+                        <button className="btn btn-outline-success col-3 ms-3" onClick={replace}  >Update</button>
                         <button className="btn btn-outline-danger col-3 me-3" onClick={reset} type="reset" value="Reset" >CANCEL</button>
                     </div>
                 </div>
-            </div>
-        </div>
+                </div>
+                </div>
         </>
     );
 }
