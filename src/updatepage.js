@@ -12,7 +12,7 @@ export let Updating=()=>
     useEffect(()=>
     {
         callreadingvalues();
-    })
+    },[])
 
     const callreadingvalues=async()=>
     {
